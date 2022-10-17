@@ -1,0 +1,1 @@
+Our application will use a PHP frontend and a Node backend.
