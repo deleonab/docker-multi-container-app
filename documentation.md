@@ -12,6 +12,8 @@ version: "3"
 services: 
    players:
      build: ./players
+     ports:
+        - 5002:80
 
 ```
 
@@ -73,6 +75,7 @@ WORKDIR /app
 COPY ./package.json ./package.json
 RUN npm install
 COPY . .
+EXPOSE 80
 CMD ["node","server.js"]
 ```
 
@@ -125,4 +128,6 @@ Successfully tagged docker-multi-container-app_players:latest
 ```
 
 ![running](./images/players-running.JPG)
+
+
 ![running](./images/browser.JPG)
