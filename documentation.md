@@ -29,3 +29,100 @@ touch players/package.json
 ```
 touch players/server.js
 ```
+
+Our server.js file 
+```
+const express = require('express');
+const app = express();
+
+const HOST = '0.0.0.0';
+
+const PORT = 80;
+
+app.get('/',(req,res)=>{
+
+  res.json({
+    players: ['Liz','Dele','Victor','Abi']
+
+  })
+
+});
+
+app.listen(PORT,HOST);
+
+console.log(`Running on http://${HOST}:${PORT}`);
+```
+
+The package.json file will contain the app dependencies
+
+```
+{
+    "dependencies":{
+
+        "express": "^4.16.1"
+
+    }
+
+}
+```
+
+Next, we create the Dockerfile for the player backend container
+```
+FROM node
+WORKDIR /app
+COPY ./package.json ./package.json
+RUN npm install
+COPY . .
+CMD ["node","server.js"]
+```
+
+```
+docker-compose up
+
+```
+
+
+
+
+
+```
+$ docker-compose up
+Creating network "docker-multi-container-app_default" with the default driver
+Building players
+Sending build context to Docker daemon  4.096kB
+Step 1/6 : FROM node
+ ---> 3adbe565b1f0
+Step 2/6 : WORKDIR /app
+ ---> Using cache
+ ---> 47ff2c90c0ae
+Step 3/6 : COPY ./package.json ./package.json
+ ---> d8764e8f8da9
+Step 4/6 : RUN npm install
+ ---> Running in 5603a4979928
+
+added 57 packages, and audited 58 packages in 20s
+
+7 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm notice 
+npm notice New minor version of npm available! 8.15.0 -> 8.19.2        
+npm notice Changelog: <https://github.com/npm/cli/releases/tag/v8.19.2>
+npm notice Run `npm install -g npm@8.19.2` to update!
+npm notice 
+Removing intermediate container 5603a4979928
+ ---> 8875a33c68da
+Step 5/6 : COPY . .
+ ---> 29268cfd6708
+Step 6/6 : CMD ["node","server.js"]
+ ---> Running in d415457d4e89
+Removing intermediate container d415457d4e89
+ ---> ef2136fe9a7e
+Successfully built ef2136fe9a7e
+Successfully tagged docker-multi-container-app_players:latest
+
+```
+
+![running](./images/players-running.JPG)
+![running](./images/browser.JPG)
