@@ -19,3 +19,13 @@ services:
 
 ### Make dir for players which will contain the dockerfile. It will
 also contain server.js and package.json files for the application
+
+```
+touch players/Dockerfile
+```
+```
+touch players/package.json
+```
+```
+touch players/server.js
+```
