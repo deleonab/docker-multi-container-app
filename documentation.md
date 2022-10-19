@@ -12,6 +12,8 @@ version: "3"
 services: 
    players:
      build: ./players
+     ports:
+        - 5002:80
 
 ```
 
@@ -73,6 +75,7 @@ WORKDIR /app
 COPY ./package.json ./package.json
 RUN npm install
 COPY . .
+EXPOSE 80
 CMD ["node","server.js"]
 ```
 
@@ -125,4 +128,45 @@ Successfully tagged docker-multi-container-app_players:latest
 ```
 
 ![running](./images/players-running.JPG)
+
+
 ![running](./images/browser.JPG)
+
+
+### Now lets start building the PHP fronend
+### Get the array of elements from the node backend and disply them with html
+Let's create directory site for our php application
+```
+touch mkdir site
+```
+
+```
+touch site/index.php
+````
+```
+touch site/Dockerfile
+````
+
+### Index.php file
+
+```
+<html>
+    <body>
+        <h1>Team </h1>
+        <ul>
+        <?php
+        $json = file_get_contents('http://players');
+        $players = json_decode($json)->players;
+
+        foreach ($players as  $player){
+
+            echo"<li>$player</li>";
+        }
+
+        ?>
+
+        </ul>
+
+    </body>
+</html>
+```
