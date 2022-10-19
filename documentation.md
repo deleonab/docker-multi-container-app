@@ -224,3 +224,38 @@ docker-compose up --build
 
 ![browser2](./images/frontend2.JPG)
 
+
+###  To enable dynamic updates without rebuilding, we will use volumes
+
+### I will update the dockercompose file to expose a volume.  - ./site:/src
+
+```
+version: "3"
+
+services: 
+   players:
+     build: ./players
+     ports: 
+       - 5002:80
+
+   site:
+      build: ./site
+      ports:
+        - 5000:80
+      depends_on:
+        - players
+      volumes:
+        - ./site:/src
+      
+
+```
+
+### I will then update the /site dockerfile to reflect src as the working directory
+
+```
+FROM php
+WORKDIR /src
+COPY ./index.php ./
+EXPOSE 80
+CMD ["php", "-S","0.0.0.0:80"]
+```
