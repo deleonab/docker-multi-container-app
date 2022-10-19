@@ -170,3 +170,57 @@ touch site/Dockerfile
     </body>
 </html>
 ```
+
+### Next we update docker-compose.yml
+```
+version: "3"
+
+services: 
+   players:
+     build: ./players
+     ports: 
+       - 5002:80
+
+   site:
+      build: ./site
+      ports:
+        - 5000:80
+      depends_on:
+        - players
+```
+
+![docker compose](./images/docker-compose.JPG)
+
+
+### I will go to the browser at localhost:80
+
+![browser](./images/frontend.JPG)
+
+
+### Next we update the backend server.js players array with a new entry but it doesn't show in the frontend.
+```
+players: ['Liz','Dele','Victor','Abi','Jonathan','Bibi']
+
+```
+### We update index.php title too but it doesn't show in the frontend either.
+
+```
+<h1>Team Members</h1>
+```
+
+### I stopped both containers and started docker-compose again
+
+- Still no changes
+
+
+
+### We need to use the --build option so that the cached images are rebuilt for our changes to manifest.
+
+```
+docker-compose up --build
+```
+
+
+
+![browser2](./images/frontend2.JPG)
+
