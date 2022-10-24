@@ -5,6 +5,7 @@ services:
      build: ./players
      ports: 
        - 5002:80
+     
 
    site:
       build: ./site
